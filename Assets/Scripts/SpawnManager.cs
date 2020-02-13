@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour {
 	[SerializeField]
-	private GameObject _monster;
+	private GameObject[] _monsters;
 	[SerializeField]
 	private Transform[] points;
 	[SerializeField]
@@ -15,13 +15,18 @@ public class SpawnManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.time > _nextLaunch)
-		{
-			int _randomPoint = Random.Range(0, 3);
-			var position = points[_randomPoint].position;
+		var _enemies = FindObjectsOfType<Monster>();
 
-			Instantiate(_monster, position, Quaternion.identity);
+		if (Time.time > _nextLaunch && _enemies.Length < 10)
+		{
+			int _randomMonster = Random.Range(0, 2);
+			int _randomPoint = Random.Range(0, 3);
+
+			var position = points[_randomPoint].position;
+			var _monster = _monsters[_randomMonster];
+			Instantiate( _monster, position, Quaternion.identity);
 			_nextLaunch = Time.time + Random.Range(_minDelay, _maxDelay);
 		}
+
 	}
 }

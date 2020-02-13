@@ -1,22 +1,62 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
-public class Monster : MonoBehaviour {
+public class Monster : MonoBehaviour
+{
 
-	[SerializeField]
-	private Player _player;
+	[SerializeField] 
+	private GameObject _player;
 	[SerializeField]
 	private float _monsterSpeed = 10.0f;
 
+	private NavMeshAgent _navMeshAgent;
+	private Vector3 _playerTransform;
 
-	void Start()
+	Animator _animator;
+
+	private Health _health;
+
+	[SerializeField]
+	private GameObject _healPoint;
+
+	Player _playerScript;
+	private void Start()
 	{
-		_player = GameObject.FindObjectOfType<Player>();
+		_health = this.GetComponent<Health>();
+		_player = GameObject.FindWithTag("Player");
+		_playerScript = _player.GetComponent<Player>();
+		_animator = this.GetComponent<Animator>();
+		_navMeshAgent = this.GetComponent<NavMeshAgent>();
 	}
-	void Update () {
-		var _playerPosition = _player.transform.position; 
-		transform.LookAt(_playerPosition);
-		transform.Translate(Vector3.forward * Time.deltaTime * _monsterSpeed);
+
+	private void Update()
+	{
+		if (_health._currentHealth <= 0)
+		{
+			Destroy(gameObject);
+			int _randomNum = Random.Range(0, 20);
+			if (_randomNum > 15)
+			{
+				Instantiate(_healPoint, transform.position, Quaternion.identity);
+			}
+			_playerScript.Score++;
+		}
+	}
+
+	private void FixedUpdate()
+	{
+		_navMeshAgent.SetDestination(_player.transform.position);
+	}
+
+	private void OnTriggerEnter(Collider _collider)
+	{
+		if (_collider.tag == "Bullet")
+		{
+			AudioManager.PlaySound("MonsterHit");
+			_health.ModifyHealth(-20);
+		}
 	}
 }

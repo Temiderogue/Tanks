@@ -11,4 +11,12 @@ public class Bullet : MonoBehaviour {
 
         gameObject.transform.Translate(Vector3.forward * Time.deltaTime * _bulletSpeed);
     }
-}
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Monster")
+        {
+            Destroy(gameObject);
+        }
+    }
+}   
