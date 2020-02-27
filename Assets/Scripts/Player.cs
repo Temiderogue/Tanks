@@ -91,7 +91,7 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "HealPoint")
+        if (other.tag == "HealPoint" && _health._currentHealth < 100)
         {
             AudioManager.PlaySound("Heal");
             _health.ModifyHealth(20);

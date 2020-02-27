@@ -20,12 +20,7 @@ public class Health : MonoBehaviour
     public void ModifyHealth(int amount)
     {
         _currentHealth += amount;
-
         _currentHealthPct = _currentHealth / _maxHealth;
-    }
-
-    void Update()
-    {
         _healthBar.fillAmount = _currentHealthPct;
     }
 }

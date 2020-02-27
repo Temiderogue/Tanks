@@ -15,7 +15,7 @@ public class Monster : MonoBehaviour
 	private NavMeshAgent _navMeshAgent;
 	private Vector3 _playerTransform;
 
-	Animator _animator;
+	private Animator _animator;
 
 	private Health _health;
 
@@ -25,11 +25,11 @@ public class Monster : MonoBehaviour
 	Player _playerScript;
 	private void Start()
 	{
-		_health = this.GetComponent<Health>();
+		_health = GetComponent<Health>();
 		_player = GameObject.FindWithTag("Player");
 		_playerScript = _player.GetComponent<Player>();
-		_animator = this.GetComponent<Animator>();
-		_navMeshAgent = this.GetComponent<NavMeshAgent>();
+		_animator = GetComponent<Animator>();
+		_navMeshAgent = GetComponent<NavMeshAgent>();
 	}
 
 	private void Update()

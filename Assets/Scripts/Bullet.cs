@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour {
+public class Bullet : MonoBehaviour 
+{
+    [SerializeField] private float _bulletSpeed;
 
-
-    private float _bulletSpeed = 35;
-	
-	void Update () {
-
-        gameObject.transform.Translate(Vector3.forward * Time.deltaTime * _bulletSpeed);
+    Rigidbody _bullet;
+    private void Start()
+    {
+        _bullet = GetComponent<Rigidbody>();
+        _bullet.AddForce(transform.forward * _bulletSpeed);
     }
+    
 
     void OnTriggerEnter(Collider other)
     {
